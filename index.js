@@ -69,6 +69,23 @@ try {
     
 }
 });
+app.delete('/api/product/:id',async (req,res)=>
+{
+try {
+    const id = req.params.id;
+    console.log(id);
+    
+    const product = await Product.findByIdAndDelete(id);
+
+    if(!product){
+        return res.status(200).json({message: "Product not found"}); 
+    }
+    const deletedProduct = await Product.findById(id);
+    res.status(200).json({message: "Product deleted successfully"});
+} catch (error) {
+    res.status(500).json({message: error.message});
+}
+});
 
 app.listen(port,()=>
 {
